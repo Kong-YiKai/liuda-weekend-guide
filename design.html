@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>溜达 LIUDA · 周末城市探索指南 · 产品设计方案</title>
+<style>
+  :root{
+    --bg:#0b0b12;
+    --bg2:#12121d;
+    --card:#171724;
+    --card2:#1d1d2e;
+    --line:rgba(255,255,255,.08);
+    --txt:#f2f2f8;
+    --sub:#9b9bb0;
+    --p1:#ff5e8e;   /* 电光粉 */
+    --p2:#b16cea;   /* 紫 */
+    --p3:#5eead4;   /* 薄荷 */
+    --grad:linear-gradient(120deg,#ff5e8e 0%,#b16cea 55%,#5eead4 100%);
+    --grad2:linear-gradient(120deg,#b16cea 0%,#ff5e8e 100%);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--txt);
+    font-family:"PingFang SC","HarmonyOS Sans SC","Microsoft YaHei",-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(177,108,234,.4)}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tag{display:inline-block;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--sub);font-size:12px;letter-spacing:.5px}
+
+  /* ===== Hero ===== */
+  header.hero{
+    position:relative;
+    padding:110px 0 90px;
+    background:
+      radial-gradient(700px 400px at 15% 0%, rgba(177,108,234,.22), transparent 60%),
+      radial-gradient(600px 380px at 85% 20%, rgba(255,94,142,.16), transparent 60%),
+      radial-gradient(500px 300px at 60% 100%, rgba(94,234,212,.10), transparent 60%),
+      var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  .hero .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 16px;border-radius:999px;
+    background:rgba(255,255,255,.05);border:1px solid var(--line);
+    font-size:13px;color:var(--sub);margin-bottom:28px;
+  }
+  .hero .badge i{width:8px;height:8px;border-radius:50%;background:var(--p3);display:inline-block}
+  .hero h1{
+    font-size:clamp(38px,6vw,72px);
+    line-height:1.12;font-weight:800;letter-spacing:-1px;
+    margin-bottom:22px;
+  }
+  .hero h1 .dot{color:var(--p1)}
+  .hero p.slogan{font-size:19px;color:var(--sub);max-width:680px;line-height:1.9;margin-bottom:38px}
+  .hero p.slogan b{color:var(--txt);font-weight:600}
+  .hero .metas{display:flex;gap:28px;flex-wrap:wrap;color:var(--sub);font-size:13.5px}
+  .hero .metas span b{color:var(--txt)}
+
+  /* ===== Section ===== */
+  section{padding:84px 0}
+  section.alt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{margin-bottom:48px}
+  .sec-head .kicker{
+    font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+    margin-bottom:14px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sec-head h2{font-size:34px;font-weight:800;letter-spacing:-.5px}
+  .sec-head p{color:var(--sub);margin-top:12px;font-size:15.5px;line-height:1.8}
+
+  /* 痛点 */
+  .pains{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .pain{
+    background:var(--card);border:1px solid var(--line);border-radius:20px;
+    padding:30px;position:relative;overflow:hidden;
+    transition:transform .25s,border-color .25s;
+  }
+  .pain:hover{transform:translateY(-4px);border-color:rgba(177,108,234,.5)}
+  .pain .num{
+    font-size:44px;font-weight:800;opacity:.14;position:absolute;top:14px;right:20px;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.28;
+  }
+  .pain h3{font-size:18px;margin:6px 0 12px}
+  .pain p{color:var(--sub);font-size:14px;line-height:1.85}
+  .pain .chip{
+    display:inline-block;margin-bottom:14px;padding:3px 10px;border-radius:999px;
+    font-size:12px;background:rgba(255,94,142,.12);color:var(--p1);border:1px solid rgba(255,94,142,.25);
+  }
+  .pain .answer{margin-top:14px;font-size:13px;color:var(--p3)}
+  .pain .answer::before{content:"→ 溜达解法 ";color:var(--p3);font-weight:700}
+
+  /* 信息架构 */
+  .ia-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .ia-node{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+  .ia-node h4{font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .ia-node h4 .ico{
+    width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+    font-size:15px;background:var(--grad2);color:#fff;
+  }
+  .ia-node ul{list-style:none}
+  .ia-node li{
+    font-size:13px;color:var(--sub);padding:7px 0 7px 14px;position:relative;
+    border-bottom:1px dashed rgba(255,255,255,.06);
+  }
+  .ia-node li:last-child{border-bottom:none}
+  .ia-node li::before{content:"·";position:absolute;left:0;color:var(--p2);font-weight:800}
+  .ia-core{
+    grid-column:1/-1;text-align:center;margin-bottom:4px;
+    padding:14px;border-radius:14px;border:1px dashed rgba(177,108,234,.5);
+    color:var(--sub);font-size:13.5px;background:rgba(177,108,234,.06);
+  }
+  .ia-core b{color:var(--txt)}
+
+  /* 核心功能亮点 */
+  .feats{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .feat{
+    background:linear-gradient(160deg,var(--card),var(--card2));
+    border:1px solid var(--line);border-radius:18px;padding:24px 20px;
+  }
+  .feat .em{font-size:26px;margin-bottom:14px}
+  .feat h4{font-size:15.5px;margin-bottom:10px}
+  .feat h4 small{display:block;font-size:11px;color:var(--p2);letter-spacing:2px;font-weight:600;margin-bottom:4px}
+  .feat p{font-size:13px;color:var(--sub);line-height:1.8}
+
+  /* ===== 原型区 ===== */
+  .phones{
+    display:flex;gap:34px;justify-content:flex-start;flex-wrap:wrap;
+  }
+  .phone-block{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:16px}
+  .phone-label{font-size:13.5px;color:var(--sub);letter-spacing:1px}
+  .phone-label b{color:var(--txt)}
+  .phone{
+    width:300px;height:640px;border-radius:42px;padding:12px;
+    background:linear-gradient(160deg,#2a2a3c,#101018);
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 30px 80px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.05);
+    position:relative;
+  }
+  .phone::after{ /* notch */
+    content:"";position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:110px;height:24px;background:#050509;border-radius:14px;z-index:9;
+  }
+  .screen{
+    width:100%;height:100%;border-radius:32px;overflow:hidden;
+    background:#0d0d16;position:relative;
+    display:flex;flex-direction:column;
+  }
+  .stbar{
+    height:40px;display:flex;align-items:center;justify-content:space-between;
+    padding:10px 20px 0;font-size:11px;color:#8888a0;flex:0 0 auto;position:relative;z-index:1;
+  }
+  .app-body{flex:1;overflow:hidden;padding:0 16px 16px;position:relative}
+
+  /* 原型通用组件 */
+  .ph-head{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px}
+  .ph-brand{font-weight:800;font-size:18px;letter-spacing:.5px}
+  .ph-brand .mark{background:var(--grad2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .chips{display:flex;gap:8px;overflow:hidden;margin-bottom:14px}
+  .chipx{
+    flex:0 0 auto;padding:6px 13px;border-radius:999px;font-size:12px;
+    background:rgba(255,255,255,.06);color:#a8a8c0;border:1px solid transparent;white-space:nowrap;
+  }
+  .chipx.on{background:rgba(255,94,142,.16);color:var(--p1);border-color:rgba(255,94,142,.35);font-weight:600}
+  .card{
+    background:#161622;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:12px;
+  }
+  .cover{height:110px;position:relative;display:flex;align-items:flex-end;padding:12px}
+  .cover .c1{background:linear-gradient(135deg,#ff9a6c,#ff5e8e)}
+  .cover .c2{background:linear-gradient(135deg,#7f7bf5,#b16cea)}
+  .cover .c3{background:linear-gradient(135deg,#2dd4bf,#5eead4)}
+  .cover .c4{background:linear-gradient(135deg,#f6d365,#fda085)}
+  .cover .badge-w{
+    position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:999px;
+    background:rgba(0,0,0,.35);backdrop-filter:blur(6px);color:#fff;font-size:11px;
+  }
+  .cover .badge-p{position:absolute;top:10px;right:10px;padding:3px 10px;border-radius:999px;background:rgba(0,0,0,.35);color:#fff;font-size:11px}
+  .card .info{padding:12px 14px}
+  .card .info h5{font-size:14.5px;margin-bottom:6px}
+  .card .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:#8a8aa2}
+  .meta b{color:var(--p3);font-weight:600}
+  .meta em{color:var(--p1);font-style:normal;font-weight:700}
+  .row-cards{display:flex;gap:10px;overflow:hidden}
+  .mini{flex:0 0 128px;background:#161622;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .mini .mc{height:64px}
+  .mini .info{padding:8px 10px}
+  .mini h6{font-size:12px;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mini .meta{font-size:10px;color:#8a8aa2}
+  .ph-tab{
+    height:56px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-around;
+    background:rgba(13,13,22,.92);flex:0 0 auto;
+  }
+  .ph-tab .t{font-size:10px;color:#77778e;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .ph-tab .t i{font-size:17px;font-style:normal}
+  .ph-tab .t.on{color:var(--p1);font-weight:700}
+  .btn-main{
+    display:block;text-align:center;padding:13px;border-radius:14px;margin-top:auto;
+    background:var(--grad2);color:#fff;font-weight:700;font-size:14px;letter-spacing:1px;
+    box-shadow:0 8px 24px rgba(255,94,142,.35);
+  }
+  .btn-ghost{
+    display:block;text-align:center;padding:12px;border-radius:14px;
+    border:1px solid var(--line);color:#c9c9dd;font-size:13px;background:rgba(255,255,255,.03);
+  }
+
+  /* 组队 */
+  .team{background:#161622;border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+  .team .top{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+  .avatars{display:flex}
+  .avatars span{
+    width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:14px;margin-left:-8px;border:2px solid #161622;
+  }
+  .avatars span:first-child{margin-left:0}
+  .team h5{font-size:13.5px;margin-bottom:4px}
+  .team .sub{font-size:11px;color:#8a8aa2}
+  .tagsline{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .tg{font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(94,234,212,.12);color:var(--p3)}
+  .tg.p{background:rgba(255,94,142,.12);color:var(--p1)}
+  .tg.v{background:rgba(177,108,234,.14);color:#c9a4f5}
+  .join{
+    padding:8px;border-radius:10px;text-align:center;font-size:12px;font-weight:700;
+    background:rgba(255,94,142,.14);color:var(--p1);border:1px solid rgba(255,94,142,.3);
+  }
+  .join.full{background:rgba(255,255,255,.05);color:#77778e;border-color:var(--line)}
+
+  /* 打卡 */
+  .mapbox{
+    height:150px;border-radius:18px;position:relative;overflow:hidden;margin-bottom:12px;
+    background:
+      radial-gradient(120px 80px at 30% 30%, rgba(94,234,212,.15), transparent 70%),
+      radial-gradient(140px 90px at 70% 60%, rgba(255,94,142,.12), transparent 70%),
+      #141420;
+    border:1px solid var(--line);
+  }
+  .mapbox .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:34px 34px}
+  .pin{position:absolute;font-size:18px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+  .pin.on{animation:bounce 2.4s infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .lvl-card{
+    background:linear-gradient(140deg,rgba(255,94,142,.16),rgba(177,108,234,.16));
+    border:1px solid rgba(177,108,234,.35);border-radius:18px;padding:16px;margin-bottom:12px;
+  }
+  .lvl-card h5{font-size:15px;margin-bottom:8px}
+  .prog{height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:8px}
+  .prog i{display:block;height:100%;width:68%;background:var(--grad);border-radius:99px}
+  .badge-row{display:flex;gap:10px}
+  .bdg{flex:1;text-align:center;background:#161622;border:1px solid var(--line);border-radius:14px;padding:10px 4px}
+  .bdg .e{font-size:20px}
+  .bdg .n{font-size:10px;color:#9b9bb0;margin-top:5px}
+  .bdg.lock{opacity:.38}
+
+  /* 攻略 feed */
+  .post{background:#161622;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:12px}
+  .post .pc{height:78px;position:relative}
+  .post .info{padding:10px 12px}
+  .post h6{font-size:13px;font-weight:600;margin-bottom:6px;line-height:1.5}
+  .post .au{display:flex;align-items:center;gap:6px;font-size:10.5px;color:#8a8aa2}
+  .post .au .av{width:18px;height:18px;border-radius:50%;background:var(--grad2);display:flex;align-items:center;justify-content:center;font-size:9px}
+  .post .stat{margin-left:auto;display:flex;gap:10px}
+
+  /* 亮色屏（详情页顶部白底） */
+  .detail-cover{height:170px;position:relative;flex:0 0 auto;
+    background:linear-gradient(160deg,#ffb27a,#ff5e8e 60%,#b16cea)}
+  .detail-cover .back{position:absolute;top:40px;left:16px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:14px}
+  .detail-cover .wchip{position:absolute;top:40px;right:16px;padding:4px 12px;border-radius:999px;background:rgba(0,0,0,.32);color:#fff;font-size:11px;backdrop-filter:blur(4px)}
+  .detail-body{padding:16px;flex:1;display:flex;flex-direction:column;overflow:hidden}
+  .detail-body h4{font-size:18px;font-weight:800;margin-bottom:10px}
+  .kvs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+  .kv{background:#161622;border:1px solid var(--line);border-radius:12px;padding:10px}
+  .kv .k{font-size:10px;color:#77778e;margin-bottom:3px}
+  .kv .v{font-size:12.5px;font-weight:600}
+  .kv .v em{color:var(--p1);font-style:normal}
+  .fit{border-radius:14px;padding:12px;margin-bottom:12px;background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.25)}
+  .fit h6{font-size:12px;color:var(--p3);margin-bottom:6px}
+  .fit p{font-size:11.5px;color:#b9b9cc;line-height:1.7}
+  .mates{background:#161622;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+  .mates h6{font-size:12px;margin-bottom:8px}
+  .mates .sub{font-size:10.5px;color:#8a8aa2;margin-top:8px}
+
+  /* 差异化 */
+  .diffs{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .diff{border-radius:20px;padding:28px;border:1px solid var(--line);background:var(--card)}
+  .diff .n{font-size:13px;font-weight:800;letter-spacing:2px;margin-bottom:12px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .diff h4{font-size:17px;margin-bottom:12px}
+  .diff p{font-size:13.5px;color:var(--sub);line-height:1.9}
+
+  footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:#66667c;font-size:12.5px;line-height:2}
+
+  @media (max-width:1080px){
+    .pains,.diffs{grid-template-columns:1fr 1fr}
+    .ia-flow,.feats{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px}
+    .pains,.diffs,.ia-flow,.feats{grid-template-columns:1fr}
+    .phones{justify-content:center}
+    section{padding:60px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <span class="badge"><i></i> AI Coding 产品设计作业 · 周末城市探索指南</span>
+    <h1>这个周末，<span class="grad-text">别再问「去哪玩」</span><span class="dot">。</span></h1>
+    <p class="slogan">
+      <b>溜达 LIUDA</b> —— 面向大学生的周末探索 App。它把你所在城市的展览、市集、演出、City Walk、短途徒步，
+      按你的<b>偏好 × 天气 × 预算 × 同行人数</b>实时拼成一份「本周末专属行程」；一键组队出发，打卡点亮城市足迹，攻略沉淀成社区。
+    </p>
+    <div class="metas">
+      <span>🎯 目标用户 <b>18–26 岁大学生 / 年轻职场人</b></span>
+      <span>🧭 核心场景 <b>周五晚决定 · 周六出发</b></span>
+      <span>📱 形态 <b>移动端 App（小程序冷启动）</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 痛点 ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">01 · User Pain Points</div>
+      <h2>为什么「决定去哪」比「去玩」更累？</h2>
+      <p>我们调研了身边同学的周末决策过程，发现从「想出门」到「出门」平均要经历 5+ 个 App、2–3 小时的信息搬运，而且经常在最后一步放弃。</p>
+    </div>
+    <div class="pains">
+      <div class="pain">
+        <div class="num">01</div>
+        <span class="chip">信息分散</span>
+        <h3>活动信息「散装」在各平台</h3>
+        <p>展览在小红书、livehouse 在秀动、市集在公众号、天气在天气 App——没有一处能横向对比「这周末到底有什么」。</p>
+        <div class="answer">城市活动聚合 Feed，按周末时间轴统一排列</div>
+      </div>
+      <div class="pain">
+        <div class="num">02</div>
+        <span class="chip">决策成本高</span>
+        <h3>天气 / 预算 / 人数，变量太多</h3>
+        <p>查好一个市集，结果周六下雨；约好 4 个人，人均预算对不上。每个变量变化一次，计划就要推翻重来。</p>
+        <div class="answer">四维智能匹配引擎：偏好 × 天气 × 预算 × 人数</div>
+      </div>
+      <div class="pain">
+        <div class="num">03</div>
+        <span class="chip">找不到搭子</span>
+        <h3>「一个人懒得去」是最大劝退项</h3>
+        <p>想看展的朋友不感兴趣，感兴趣的朋友没时间。社恐 + 搭子难匹配，导致大量计划直接夭折在微信群里。</p>
+        <div class="answer">兴趣标签组队系统：i 人友好 / 摄影党 / 佛系逛</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 信息架构 ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">02 · Product Structure</div>
+      <h2>产品结构：一条主线 + 四个模块</h2>
+      <p>以「周末行程」为主线串联全部功能：推荐 → 决策 → 组队 → 出发 → 打卡 → 分享，形成完整闭环。</p>
+    </div>
+    <div class="ia-flow">
+      <div class="ia-core">🚶 主线闭环：<b>收到推荐 → 生成行程 → 组队出发 → 现场打卡 → 输出攻略 → 反哺推荐（个性化数据沉淀）</b></div>
+      <div class="ia-node">
+        <h4><span class="ico">🧭</span>探索（首页）</h4>
+        <ul>
+          <li>周末时间轴活动聚合 Feed</li>
+          <li>四维筛选：类别 / 天气 / 预算 / 人数</li>
+          <li>「本周为你挑」AI 推荐卡</li>
+          <li>天气突变自动换案（Plan B）</li>
+        </ul>
+      </div>
+      <div class="ia-node">
+        <h4><span class="ico">🤝</span>组队出发</h4>
+        <ul>
+          <li>按活动找搭子（兴趣标签匹配）</li>
+          <li>发起新队 / 拼入已有队</li>
+          <li>队内行程协作 + 集合点导航</li>
+          <li>安全机制：学生认证 / 信用分</li>
+        </ul>
+      </div>
+      <div class="ia-node">
+        <h4><span class="ico">📍</span>打卡足迹</h4>
+        <ul>
+          <li>活动地点一键打卡（照片 + 感受）</li>
+          <li>城市足迹地图：点亮探索过的街区</li>
+          <li>探索等级 + 限定徽章体系</li>
+          <li>周末报告：自动生成回忆卡片</li>
+        </ul>
+      </div>
+      <div class="ia-node">
+        <h4><span class="ico">📖</span>攻略社区</h4>
+        <ul>
+          <li>打卡内容一键转攻略</li>
+          <li>结构化攻略模板（路线 / 花费 / 避雷）</li>
+          <li>同城攻略榜 & 好友动态</li>
+          <li>攻略直接「一键复刻」为我的行程</li>
+        </ul>
+      </div>
+      <div class="ia-node">
+        <h4><span class="ico">🪪</span>我的</h4>
+        <ul>
+          <li>偏好画像（可调权重：省钱 / 出片 / 社交）</li>
+          <li>我的队伍 & 历史行程</li>
+          <li>徽章墙 & 探索等级</li>
+          <li>校园身份认证</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 核心功能亮点 ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">03 · Key Features</div>
+      <h2>五个让年轻人愿意留下来的功能</h2>
+    </div>
+    <div class="feats">
+      <div class="feat">
+        <div class="em">🌦️</div>
+        <h4><small>WEATHER-AWARE</small>天气感知推荐</h4>
+        <p>接入实时天气：晴天优先户外市集与徒步线，雨天自动切到室内展和 livehouse；周五晚推送「周六有雨，Plan B 已备好」。</p>
+      </div>
+      <div class="feat">
+        <div class="em">💸</div>
+        <h4><small>BUDGET MODE</small>预算滑杆</h4>
+        <p>一根滑杆从 ¥0 拉到 ¥300：免费展、拼车徒步、平价市集自动重排优先级，人均花费提前算清，拒绝「到了才发现超预算」。</p>
+      </div>
+      <div class="feat">
+        <div class="em">🤝</div>
+        <h4><small>SQUAD UP</small>搭子匹配组队</h4>
+        <p>按「i人友好 / 摄影党 / 佛系逛 / 特种兵」等标签找搭子；4 人小队上限控制社交压力，队内轻协作：集合点、AA 记账、行程提醒。</p>
+      </div>
+      <div class="feat">
+        <div class="em">📍</div>
+        <h4><small>CITY MAP</small>足迹点亮地图</h4>
+        <p>每打卡一个地点，城市地图上就点亮一片街区。探索等级从「新市民」到「城市显眼包」，晒图欲和收集欲同时拉满。</p>
+      </div>
+      <div class="feat">
+        <div class="em">📖</div>
+        <h4><small>UGC LOOP</small>攻略一键复刻</h4>
+        <p>别人的攻略不是看完就走：一键把攻略里的路线、花费、排队时间复刻成自己的周末行程，UGC 直接转化为行程转化率。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 原型 ============ -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">04 · UI Prototype</div>
+      <h2>前端原型：深夜霓虹 × 软萌反差</h2>
+      <p>深色底 + 电光渐变（粉 → 紫 → 薄荷），大圆角卡片、胶囊标签、玻璃拟态浮层——「夜跑完打开也不刺眼」的时尚感，同时保持信息密度克制。</p>
+    </div>
+    <div class="phones">
+
+      <!-- Phone 1: 首页 -->
+      <div class="phone-block">
+        <div class="phone"><div class="screen">
+          <div class="stbar"><span>9:41</span><span>●●● ⚡</span></div>
+          <div class="app-body">
+            <div class="ph-head">
+              <div class="ph-brand"><span class="mark">溜达</span> LIUDA</div>
+              <div style="font-size:11px;color:#9b9bb0">🔔 2</div>
+            </div>
+            <div class="card" style="padding:12px 14px;margin-bottom:12px;background:linear-gradient(140deg,rgba(255,94,142,.12),rgba(177,108,234,.12));border-color:rgba(177,108,234,.3)">
+              <div style="font-size:12px;color:#c9c9dd;margin-bottom:4px">👋 周五了，周六 <b style="color:var(--p3)">晴 18°C</b>，微风超适合出门</div>
+              <div style="font-size:11px;color:#9b9bb0">本周为你挑了 <b style="color:var(--p1)">3</b> 个高匹配活动 ↓</div>
+            </div>
+            <div class="chips">
+              <span class="chipx on">为你挑</span>
+              <span class="chipx">展览</span>
+              <span class="chipx">市集</span>
+              <span class="chipx">演出</span>
+              <span class="chipx">CityWalk</span>
+              <span class="chipx">徒步</span>
+            </div>
+            <div class="card">
+              <div class="cover c1">
+                <span class="badge-w">☀️ 晴天推荐</span>
+                <span class="badge-p">98% 匹配</span>
+              </div>
+              <div class="info">
+                <h5>西岸 · 秋日艺术市集 🍂</h5>
+                <div class="meta">
+                  <span><b>周六 14:00</b></span>
+                  <span>距学校 <em>3.2km</em></span>
+                  <span>人均 <em>¥45</em></span>
+                </div>
+              </div>
+            </div>
+            <div class="row-cards">
+              <div class="mini">
+                <div class="mc" style="background:linear-gradient(135deg,#7f7bf5,#b16cea)"></div>
+                <div class="info"><h6>沉浸式数字展「幻」</h6><div class="meta">室内 · 免费预约 · 2人成行</div></div>
+              </div>
+              <div class="mini">
+                <div class="mc" style="background:linear-gradient(135deg,#2dd4bf,#5eead4)"></div>
+                <div class="info"><h6>江湾徒步 · 8km</h6><div class="meta">晴天 · ¥0 · 特种兵局</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="ph-tab">
+            <span class="t on"><i>🧭</i>探索</span>
+            <span class="t"><i>🤝</i>组队</span>
+            <span class="t"><i>📖</i>攻略</span>
+            <span class="t"><i>🪪</i>我的</span>
+          </div>
+        </div></div>
+        <div class="phone-label"><b>① 探索首页</b> · 天气感知 Feed + 匹配度</div>
+      </div>
+
+      <!-- Phone 2: 详情 -->
+      <div class="phone-block">
+        <div class="phone"><div class="screen">
+          <div class="detail-cover">
+            <span class="back">←</span>
+            <span class="wchip">☀️ 周六 14–19°C 微风</span>
+          </div>
+          <div class="detail-body">
+            <h4>秋日艺术市集 × 落日专场</h4>
+            <div class="kvs">
+              <div class="kv"><div class="k">时间</div><div class="v">周六 14:00–20:00</div></div>
+              <div class="kv"><div class="k">人均预算</div><div class="v"><em>¥45</em>（含小吃）</div></div>
+              <div class="kv"><div class="k">地点</div><div class="v">西岸滨江 · 3.2km</div></div>
+              <div class="kv"><div class="k">适合人数</div><div class="v">2–4 人小队</div></div>
+            </div>
+            <div class="fit">
+              <h6>✨ 为什么适合你</h6>
+              <p>「你上周收藏了 2 个市集类内容；周六无雨、18°C 适合户外；预算 ¥100 内命中；落日时段出片率高 📷」</p>
+            </div>
+            <div class="mates">
+              <h6>🤝 已有 2 队正在集结</h6>
+              <div class="tagsline">
+                <span class="tg v">📷 摄影党 2/4</span>
+                <span class="tg p">i人友好 3/4</span>
+                <span class="tg">🧋 佛系逛 1/4</span>
+              </div>
+              <div class="sub">均需学生认证 · 信用分 90+ · 查看队伍详情 →</div>
+            </div>
+            <a class="btn-main" style="margin-top:auto">立即组队出发 →</a>
+            <div style="height:8px"></div>
+            <a class="btn-ghost">先收藏，加入周六 Plan 列表</a>
+          </div>
+        </div></div>
+        <div class="phone-label"><b>② 活动详情</b> · 四维匹配解释 + 组队入口</div>
+      </div>
+
+      <!-- Phone 3: 组队 -->
+      <div class="phone-block">
+        <div class="phone"><div class="screen">
+          <div class="stbar"><span>9:41</span><span>●●● ⚡</span></div>
+          <div class="app-body">
+            <div class="ph-head">
+              <div class="ph-brand">找搭子 <span style="font-size:11px;color:#9b9bb0;font-weight:400">· 秋日艺术市集</span></div>
+              <div style="font-size:20px">＋</div>
+            </div>
+            <div class="chips">
+              <span class="chipx on">全部 12</span>
+              <span class="chipx">还能拼 5</span>
+              <span class="chipx">女生队</span>
+              <span class="chipx">已认证</span>
+            </div>
+            <div class="team">
+              <div class="top">
+                <div class="avatars"><span style="background:#ff9a9e">🦊</span><span style="background:#a18cd1">🐨</span><span style="background:#89f7d2">🐸</span></div>
+                <div style="margin-left:auto;text-align:right"><div class="sub" style="font-size:10px">3/4 人</div><div style="font-size:11px;color:var(--p3)">差 1 人</div></div>
+              </div>
+              <h5>落日场拍照局，focal 长焦优先</h5>
+              <div class="sub">集合：周六 15:30 地铁 7 号口 · AA</div>
+              <div class="tagsline"><span class="tg v">📷 摄影党</span><span class="tg p">需互拍</span><span class="tg">信用分 95</span></div>
+              <div class="join">申请入队</div>
+            </div>
+            <div class="team">
+              <div class="top">
+                <div class="avatars"><span style="background:#fbc2eb">🐷</span><span style="background:#8fd3f4">🦉</span></div>
+                <div style="margin-left:auto;text-align:right"><div class="sub" style="font-size:10px">2/4 人</div><div style="font-size:11px;color:var(--p3)">差 2 人</div></div>
+              </div>
+              <h5>i 人友好局：各逛各的，偶尔合体</h5>
+              <div class="sub">集合：周六 16:00 市集正门 · AA</div>
+              <div class="tagsline"><span class="tg p">i人友好</span><span class="tg v">🔇 不强行社交</span><span class="tg">信用分 92</span></div>
+              <div class="join">申请入队</div>
+            </div>
+            <div class="team">
+              <div class="top">
+                <div class="avatars"><span style="background:#ffecd2">🐻</span><span style="background:#d4fc79">🐤</span><span style="background:#96e6a1">🐙</span><span style="background:#fddb92">🐳</span></div>
+                <div style="margin-left:auto;text-align:right"><div class="sub" style="font-size:10px">4/4 人</div></div>
+              </div>
+              <h5>特种兵快闪局：市集+落日+夜宵</h5>
+              <div class="tagsline"><span class="tg v">⚡ 特种兵</span><span class="tg">信用分 98</span></div>
+              <div class="join full">已满员 · 蹲候补</div>
+            </div>
+          </div>
+          <div class="ph-tab">
+            <span class="t"><i>🧭</i>探索</span>
+            <span class="t on"><i>🤝</i>组队</span>
+            <span class="t"><i>📖</i>攻略</span>
+            <span class="t"><i>🪪</i>我的</span>
+          </div>
+        </div></div>
+        <div class="phone-label"><b>③ 组队大厅</b> · 兴趣标签搭子匹配</div>
+      </div>
+
+      <!-- Phone 4: 打卡 -->
+      <div class="phone-block">
+        <div class="phone"><div class="screen">
+          <div class="stbar"><span>9:41</span><span>●●● ⚡</span></div>
+          <div class="app-body">
+            <div class="ph-head">
+              <div class="ph-brand">我的足迹</div>
+              <div style="font-size:11px;color:#9b9bb0">本月 · 6 个地点</div>
+            </div>
+            <div class="mapbox">
+              <div class="grid"></div>
+              <span class="pin on" style="left:18%;top:30%">📍</span>
+              <span class="pin" style="left:44%;top:52%">📍</span>
+              <span class="pin" style="left:70%;top:26%">📍</span>
+              <span class="pin" style="left:58%;top:70%">📍</span>
+              <span class="pin" style="left:84%;top:56%">📍</span>
+              <span style="position:absolute;bottom:10px;left:12px;font-size:11px;color:#9b9bb0">🌆 已点亮 4 / 9 个街区</span>
+            </div>
+            <div class="lvl-card">
+              <h5>🏅 探索等级 Lv.3「街区常客」</h5>
+              <div style="font-size:11.5px;color:#c9c9dd">再打卡 2 次升级 <b style="color:var(--p1)">Lv.4 城市玩家</b>，解锁限定徽章「江湾日落收藏家」</div>
+              <div class="prog"><i></i></div>
+            </div>
+            <div class="badge-row">
+              <div class="bdg"><div class="e">🎭</div><div class="n">看展新手</div></div>
+              <div class="bdg"><div class="e">🧋</div><div class="n">市集猎人</div></div>
+              <div class="bdg"><div class="e">🌄</div><div class="n">落日收藏</div></div>
+              <div class="bdg lock"><div class="e">🔒</div><div class="n">夜徒王者</div></div>
+            </div>
+            <div class="card" style="margin-top:12px;padding:12px 14px">
+              <div style="font-size:12px;color:#c9c9dd;margin-bottom:6px">📄 你的周末报告已生成</div>
+              <div style="font-size:11px;color:#9b9bb0">10 月第 3 周 · 3 个地点 · 12 张回忆碎片 · <span style="color:var(--p3)">生成回忆卡片 →</span></div>
+            </div>
+            <a class="btn-main">📍 在当前位置打卡</a>
+          </div>
+          <div class="ph-tab">
+            <span class="t"><i>🧭</i>探索</span>
+            <span class="t"><i>🤝</i>组队</span>
+            <span class="t"><i>📖</i>攻略</span>
+            <span class="t on"><i>🪪</i>我的</span>
+          </div>
+        </div></div>
+        <div class="phone-label"><b>④ 打卡足迹</b> · 地图点亮 + 徽章收集</div>
+      </div>
+
+      <!-- Phone 5: 攻略 -->
+      <div class="phone-block">
+        <div class="phone"><div class="screen">
+          <div class="stbar"><span>9:41</span><span>●●● ⚡</span></div>
+          <div class="app-body">
+            <div class="ph-head">
+              <div class="ph-brand">攻略社区</div>
+              <div style="font-size:20px">＋</div>
+            </div>
+            <div class="chips">
+              <span class="chipx on">同城热榜</span>
+              <span class="chipx">好友动态</span>
+              <span class="chipx">免费</span>
+              <span class="chipx">雨天</span>
+            </div>
+            <div class="post">
+              <div class="pc" style="background:linear-gradient(135deg,#f093fb,#f5576c)"></div>
+              <div class="info">
+                <h6>¥52 玩转西岸一天：市集+落日+夜市路线</h6>
+                <div class="au"><span class="av">🦊</span>@栗子不加糖 · 昨天
+                  <span class="stat"><span>❤️ 1.2k</span><span>⭐ 860</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="post">
+              <div class="pc" style="background:linear-gradient(135deg,#5ee7df,#b490ca)"></div>
+              <div class="info">
+                <h6>雨天 Plan B：室内数字展半日攻略（附预约避雷）</h6>
+                <div class="au"><span class="av">🦉</span>@夜航西 · 2 天前
+                  <span class="stat"><span>❤️ 980</span><span>⭐ 1.5k</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="card" style="padding:12px 14px;border-color:rgba(94,234,212,.35);background:rgba(94,234,212,.06)">
+              <div style="font-size:12px;color:var(--p3);margin-bottom:5px">✨ 攻略一键复刻</div>
+              <div style="font-size:11px;color:#b9b9cc;line-height:1.7">把任意攻略的路线、花费、时间直接变成你的周六行程，再微调即可出发。</div>
+            </div>
+            <a class="btn-main">从打卡生成我的攻略 ✍️</a>
+          </div>
+          <div class="ph-tab">
+            <span class="t"><i>🧭</i>探索</span>
+            <span class="t"><i>🤝</i>组队</span>
+            <span class="t on"><i>📖</i>攻略</span>
+            <span class="t"><i>🪪</i>我的</span>
+          </div>
+        </div></div>
+        <div class="phone-label"><b>⑤ 攻略社区</b> · UGC 分享 + 一键复刻</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 差异化 ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">05 · Why Us</div>
+      <h2>差异化与冷启动思路</h2>
+    </div>
+    <div class="diffs">
+      <div class="diff">
+        <div class="n">DIFF 01</div>
+        <h4>不做到家 App，只做周末决策</h4>
+        <p>不做「又一个本地生活平台」，而是专注周五到周日的「决策时刻」。小切口、高频次、强场景，避开与大众点评 / 小红书的正面竞争。</p>
+      </div>
+      <div class="diff">
+        <div class="n">DIFF 02</div>
+        <h4>推荐可解释，越用越懂你</h4>
+        <p>每张推荐卡都写清「为什么推给你」（天气 / 预算 / 偏好），用户可反馈「不像我」；打卡与攻略行为反哺推荐，形成数据飞轮。</p>
+      </div>
+      <div class="diff">
+        <div class="n">DIFF 03</div>
+        <h4>搭子社交，轻而不重</h4>
+        <p>组队是「一次性轻社交」：活动结束即散，不沉淀陌生人关系链，规避校园社交产品的信任与安全压力，学生认证 + 信用分兜底。</p>
+      </div>
+      <div class="diff">
+        <div class="n">COLD START</div>
+        <h4>冷启动：从 5 所高校开始</h4>
+        <p>先做微信小程序验证（成本低、易裂变），在 5 所高校发展「校园探索官」，官方组 50 条精品周末路线作为初始 PGC 内容，再扩城市。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    溜达 LIUDA · 周末城市探索指南 · 产品设计方案与前端原型<br>
+    Powered by AI Coding · 推荐引擎（天气 × 预算 × 偏好 × 人数）· 组队 · 打卡 · 攻略闭环
+  </div>
+</footer>
+
+</body>
+</html>
