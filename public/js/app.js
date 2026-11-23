@@ -144,7 +144,7 @@ function renderView() {
     case 'guides': v.innerHTML = viewGuides(); break;
     case 'me': v.innerHTML = viewMe(); break;
   }
-  window.scrollTo(0, 0);
+  document.getElementById('view').scrollTop = 0;
 }
 
 function renderModal() {

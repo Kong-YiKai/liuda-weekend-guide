@@ -2,13 +2,13 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>溜达 LIUDA · 周末城市探索指南</title>
 <link rel="stylesheet" href="styles.css">
-</head>
+<link rel="stylesheet" href="publication.css"></head>
 <body>
 
-<div class="app">
+<div class="guide-layout"><header class="guide-intro"><span>遛达指南 ／ 城市手册</span><h1>周末，<br>上街走走。</h1><p>找一场街区里的活动，约上同行的人，把沿途的发现写进攻略。</p><div class="walk-line" aria-hidden="true">● ─── ◇ ─── ●</div></header><div class="app">
   <header class="topbar" id="topbar"></header>
   <main class="view" id="view"></main>
   <nav class="tabbar" id="tabbar"></nav>
@@ -17,8 +17,11 @@
   <div class="toast-root" id="toast-root"></div>
 </div>
 
+<aside class="pub-rail" aria-label="项目文档"><details open><summary>项目文档</summary><nav aria-label="遛达指南文档"><a href="docs/itinerary.html"><strong>周末行程编排手册</strong><span aria-hidden="true">↗</span><small>从一场想去的活动，排出留有余量的半日路线。</small></a>
+<a href="docs/meetup.html"><strong>小队集合与同行约定</strong><span aria-hidden="true">↗</span><small>从挑选队伍到临时改点，把集合事项一次说清。</small></a>
+<a href="docs/field-notes.html"><strong>打卡与路线攻略写作规范</strong><span aria-hidden="true">↗</span><small>把一次出行整理成别人可以照着走的路线。</small></a></nav></details></aside></div>
 <script src="js/data.js"></script>
 <script src="js/engine.js"></script>
 <script src="js/app.js"></script>
-</body>
+<script>if (window.matchMedia) { const compactDocs = matchMedia("(max-width: 700px)"); const docsMenu = document.querySelector(".pub-rail details"); function sizeDocs() { docsMenu.open = !compactDocs.matches; } sizeDocs(); compactDocs.addEventListener("change", sizeDocs); }</script></body>
 </html>

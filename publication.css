@@ -1,0 +1,17 @@
+.pub-rail{border:1px solid var(--doc-line);background:var(--doc-bg);color:var(--doc-text);border-radius:18px;padding:22px;min-width:0}
+.pub-rail summary{font-size:18px;font-weight:700;cursor:pointer;letter-spacing:.03em}
+.pub-rail nav{margin-top:14px}
+.pub-rail a{display:grid;grid-template-columns:1fr auto;gap:5px 8px;padding:16px 2px;border-top:1px solid var(--doc-line);text-decoration:none;color:inherit;transition:color .15s}
+.pub-rail a:is(:hover,:focus-visible){color:var(--doc-accent)}
+.pub-rail a span{color:var(--doc-accent)}.pub-rail small{grid-column:1/-1;font-size:12px;line-height:1.7;color:var(--doc-muted)}
+.pub-rail a:focus-visible,.pub-rail summary:focus-visible{outline:2px solid var(--doc-accent);outline-offset:2px}
+:root{--doc-bg:#fdfbf5;--doc-text:#173e35;--doc-muted:#526459;--doc-line:#ced4c8;--doc-accent:#985023;--bg:#ebece3;--panel:#f7f7ef;--card:#fffef9;--card2:#eaf0e5;--line:#d5dace;--txt:#203b33;--sub:#485e54;--dim:#596a60;--pink:#8c482e;--purple:#48674d;--mint:#206749;--amber:#926018;--grad:#315c49;--grad2:#285d48;--grad3:#35624f;--r:14px}
+body{background:#e9ece3}
+.guide-layout{display:grid;grid-template-columns:minmax(185px, .75fr) minmax(390px,1.5fr) minmax(225px,.82fr);align-items:start;gap:clamp(20px,3vw,52px);max-width:1490px;padding:26px clamp(20px,4vw,70px);margin:auto}
+.guide-intro,.pub-rail{position:sticky;top:clamp(36px,15vh,150px)}.guide-intro{padding-top:12px;border-top:2px solid #284f40}
+.guide-intro span{font-size:13px;letter-spacing:.16em;font-weight:700}.guide-intro h1{font:700 clamp(42px,4.5vw,75px)/1.22 Georgia,"Songti SC",SimSun,serif;letter-spacing:-.06em;margin:35px 0 22px}.guide-intro p{max-width:18em;line-height:1.95;color:var(--sub)}.walk-line{margin-top:40px;color:#9d5f39;letter-spacing:.14em}
+.app{margin:0;width:100%;max-width:none;min-height:0;height:calc(100dvh - 52px);display:flex;flex-direction:column;background:var(--panel);border:1px solid #cbd2c4;border-radius:22px;box-shadow:0 12px 40px #37493512;overflow:hidden}
+.view{flex:1;overflow-y:auto;padding:16px clamp(15px,2vw,26px) 28px;scrollbar-width:thin}.topbar,.tabbar,.sheet-head{background:#fbfcf6}.topbar{padding:16px 20px}.brand{background:none;color:#244c3c}.tabbar{position:static;max-width:none;width:100%;margin:0;border-inline:0;flex-shrink:0}.tabbar .t{font-size:12px;padding:3px}.hero-card,.team.mine{background:#e1eadb;border:1px solid #c9d6c2}.hero-card h3{font-size:19px}.hero-card p,.btn.ghost,.why div,.panel p,.ci .bd .t,.route .n{color:var(--sub)}
+.btn{box-shadow:none}.btn.ghost{background:#f4f5ec}.empty{padding:16px}.empty .e{display:none}.team{padding:16px}.team .nm h5{font-size:16px}.team .note{font-size:13px}.team .nm .s{font-size:12px}.wx.rain,.tg.v{color:#4f466c}.toast{color:white}.sect h3{font-size:17px}.dcover{color:white}.tg{font-weight:600}
+@media(max-width:990px){.guide-layout{grid-template-columns:minmax(0,1fr) 260px}.guide-intro{display:none}}
+@media(max-width:700px){.guide-layout{display:flex;flex-direction:column;gap:0;padding:0;height:100dvh}.pub-rail{order:-1;position:static;width:100%;border-radius:0;padding:9px 16px}.pub-rail summary{font-size:14px}.pub-rail nav{margin:4px 0}.pub-rail a{padding:8px 0}.app{flex:1;min-height:0;border-radius:0;border:0}.view{padding-inline:16px}}
